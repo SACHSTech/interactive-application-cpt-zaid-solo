@@ -89,10 +89,18 @@ public class Sketch extends PApplet {
     }
 
     public void keyPressed() {
-        if ((key == 'w' || key == 'W' || key == UP) && onGround) {
+        if ((key == 'w' || key == 'W' || keyCode == UP) && onGround) {
             velocity = jump;
             onGround = false;
         }
+    }
+
+    public void keyReleased() {
+    if (key == 'w' || key == 'W' || keyCode == UP) {
+        if (velocity < 0) {
+            velocity *= 0.5f; // cut upward speed in half on release
+        }
+    }
     }
 
     /** Additional helper methods below */
