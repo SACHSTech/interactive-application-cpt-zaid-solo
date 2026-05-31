@@ -10,8 +10,17 @@ public class Sketch extends PApplet {
     }
 
     //variables for setup
-    int mcX = 100;
-    int mcY = 425;
+    float mcX = 100;
+    float mcY = 425;
+
+    float rectStart = 0;
+    float rectEnd = 1000;
+    float scrollSpeed = 2;
+    float speedIncrease = 0.001f;
+
+    boolean infinite = true;
+
+    
 
     @Override
     public void settings() {
@@ -34,8 +43,23 @@ public class Sketch extends PApplet {
     private void ground() {
         strokeWeight(0);
         fill(179, 236, 255);
-        rect(0, 450, 1000, 150);
-        rect(0, 0, 1000, 150);
+
+        rectStart -= scrollSpeed;
+        rectEnd -= scrollSpeed;
+
+        if (rectStart + 1000 < 0) { //once fully offscreen, telelports behind second rectangle waiting to begin moving
+            rectStart = rectEnd + 1000;
+        }
+        if (rectEnd + 1000 < 0) {
+            rectEnd = rectStart + 1000;
+        }
+
+        rect(rectStart, 450, 1000, 150);
+        rect(rectEnd, 450, 1000, 150);
+        
+        rect(rectStart, 0, 1000, 150);
+        rect(rectEnd, 0, 1000, 150);
+        
     }
 
     private void mainCharacter() {
@@ -44,7 +68,10 @@ public class Sketch extends PApplet {
     }
 
     private void movement() {
+        
+    }
 
+    public void keyPressed() {
     }
 
     /** Additional helper methods below */
