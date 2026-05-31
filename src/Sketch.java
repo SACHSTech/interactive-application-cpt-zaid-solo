@@ -18,7 +18,10 @@ public class Sketch extends PApplet {
     float scrollSpeed = 2;
     float speedIncrease = 0.001f;
 
-    boolean infinite = true;
+    float velocity = 0;
+    float gravity = 0.6f;
+    float jump = -13;
+    boolean onGround = true;
 
     
 
@@ -36,7 +39,7 @@ public class Sketch extends PApplet {
     public void draw() {
         background(230, 247, 255);
         ground();
-        movement();
+        jumping();
         mainCharacter();
     }
 
@@ -70,11 +73,26 @@ public class Sketch extends PApplet {
         circle(mcX, mcY, 50);
     }
 
-    private void movement() {
-        
+    private void jumping() {
+        velocity += gravity;
+        mcY += velocity;
+
+        if (mcY >= 425) {
+            mcY = 425;
+            velocity = 0;
+            onGround = true;
+        } else {
+            onGround = false;
+        }
+
+
     }
 
     public void keyPressed() {
+        if ((key == 'w' || key == 'W' || key == UP) && onGround) {
+            velocity = jump;
+            onGround = false;
+        }
     }
 
     /** Additional helper methods below */
