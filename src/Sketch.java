@@ -22,6 +22,7 @@ public class Sketch extends PApplet {
     float gravity = 0.6f;
     float jump = -13;
     boolean onGround;
+    boolean gravityFlipped = false;
 
     
 
@@ -74,24 +75,32 @@ public class Sketch extends PApplet {
     }
 
     private void jumping() {
-        velocity += gravity;
-        mcY += velocity;
-
-        if (mcY >= 425) {
-            mcY = 425;
-            velocity = 0;
-            onGround = true;
+        if (gravityFlipped) {
+            velocity -= gravity;
+            if (mcY <= 175) {
+                mcY = 175;
+                velocity = 0;
+                onGround = true;
+            }
         } else {
-            onGround = false;
+            velocity += gravity;
+            if (mcY >= 425) {
+                mcY = 425;
+                velocity = 0;
+                onGround = true;
+            }
         }
-
-
+        mcY += velocity;
     }
 
     public void keyPressed() {
         if ((key == 'w' || key == 'W' || keyCode == UP) && onGround) {
             velocity = jump;
             onGround = false;
+        }
+        if (key == ' ') {
+            gravityFlipped = !gravityFlipped;
+            velocity = 0;
         }
     }
 
@@ -102,6 +111,7 @@ public class Sketch extends PApplet {
         }
     }
     }
+
 
     /** Additional helper methods below */
 
