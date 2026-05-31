@@ -42,7 +42,10 @@ public class Sketch extends PApplet {
 
     private void ground() {
         strokeWeight(0);
+        stroke(179, 236, 255);
         fill(179, 236, 255);
+
+        scrollSpeed += speedIncrease;
 
         rectStart -= scrollSpeed;
         rectEnd -= scrollSpeed;
