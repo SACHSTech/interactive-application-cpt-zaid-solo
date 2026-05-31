@@ -21,7 +21,7 @@ public class Sketch extends PApplet {
     float velocity = 0;
     float gravity = 0.6f;
     float jump = -13;
-    boolean onGround = true;
+    boolean onGround;
 
     
 
