@@ -109,13 +109,16 @@ public class Sketch extends PApplet {
         }
     }
 
-    public void keyReleased() {
+   public void keyReleased() {
     if (key == 'w' || key == 'W' || keyCode == UP) {
-        if (velocity < 0) {
-            velocity *= 0.5f; // cut upward speed in half on release
+        if (!gravityFlipped && velocity < 0) {
+            velocity *= 0.5f;
+        }
+        if (gravityFlipped && velocity > 0) {
+            velocity *= 0.5f;
         }
     }
-    }
+}
 
 
     /** Additional helper methods below */
