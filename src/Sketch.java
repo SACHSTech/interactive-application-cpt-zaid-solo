@@ -75,6 +75,8 @@ public class Sketch extends PApplet {
     }
 
     private void jumping() {
+        mcY += velocity;
+
         if (gravityFlipped) {
             velocity -= gravity;
             if (mcY <= 175) {
@@ -90,12 +92,15 @@ public class Sketch extends PApplet {
                 onGround = true;
             }
         }
-        mcY += velocity;
     }
 
     public void keyPressed() {
-        if ((key == 'w' || key == 'W' || keyCode == UP) && onGround) {
-            velocity = jump;
+       if ((key == 'w' || key == 'W' || keyCode == UP) && onGround) {
+            if (gravityFlipped) {
+                velocity = 13;
+            } else {
+                velocity = jump;
+            }
             onGround = false;
         }
         if (key == ' ') {
