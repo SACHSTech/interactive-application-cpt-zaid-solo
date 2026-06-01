@@ -1,4 +1,6 @@
 import processing.core.PApplet;
+import processing.core.PImage;
+
 
 /**
  * Template for programs with Processing graphics output.
@@ -11,7 +13,9 @@ public class Sketch extends PApplet {
 
     //variables for setup
     float mcX = 100;
-    float mcY = 425;
+    float mcY = 475;
+    float groundPOS1 = 475;
+    float groundPOS2 = 125;
 
     float rectStart = 0;
     float rectEnd = 1000;
@@ -31,22 +35,31 @@ public class Sketch extends PApplet {
         size(1000, 600); 
     }
 
+    PImage myImage;
+
     @Override
     public void setup() {
+        myImage = loadImage("data/2.png");
 
     }
 
     @Override
     public void draw() {
         background(230, 247, 255);
+        bg();
         ground();
         jumping();
         mainCharacter();
     }
 
+    private void bg() {
+        image(myImage, 0, 0, 1000, 600);
+    }
+
     private void ground() {
         strokeWeight(0);
         stroke(179, 236, 255);
+        stroke(0);
         fill(179, 236, 255);
 
         scrollSpeed += speedIncrease;
@@ -61,11 +74,11 @@ public class Sketch extends PApplet {
             rectEnd = rectStart + 1000;
         }
 
-        rect(rectStart, 450, 1000, 150);
-        rect(rectEnd, 450, 1000, 150);
+        rect(rectStart, 500, 1000, 100);
+        rect(rectEnd, 500, 1000, 100);
         
-        rect(rectStart, 0, 1000, 150);
-        rect(rectEnd, 0, 1000, 150);
+        rect(rectStart, 0, 1000, 100);
+        rect(rectEnd, 0, 1000, 100);
         
     }
 
@@ -75,23 +88,25 @@ public class Sketch extends PApplet {
     }
 
     private void jumping() {
+        onGround = false;
         mcY += velocity;
 
         if (gravityFlipped) {
             velocity -= gravity;
-            if (mcY <= 175) {
-                mcY = 175;
+            if (mcY <= groundPOS2) {
+                mcY = groundPOS2;
                 velocity = 0;
                 onGround = true;
             }
         } else {
             velocity += gravity;
-            if (mcY >= 425) {
-                mcY = 425;
+            if (mcY >= groundPOS1) {
+                mcY = groundPOS1;
                 velocity = 0;
                 onGround = true;
             }
         }
+
     }
 
     public void keyPressed() {
@@ -103,7 +118,7 @@ public class Sketch extends PApplet {
             }
             onGround = false;
         }
-        if (key == ' ') {
+        if (key == ' ' && onGround) {
             gravityFlipped = !gravityFlipped;
             velocity = 0;
         }
