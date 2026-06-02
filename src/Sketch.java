@@ -20,7 +20,7 @@ public class Sketch extends PApplet {
     float rectStart = 0;
     float rectEnd = 1000;
     float scrollSpeed = 2;
-    float speedIncrease = 0.001f;
+    float speedIncrease = 0.002f;
 
     float velocity = 0;
     float gravity = 0.6f;
@@ -63,17 +63,28 @@ public class Sketch extends PApplet {
 
     private void bg() {
         image(building1, bg1X, 0, 800, 600);
-        
+        if(bg1X <= 0) {
+            image(building1, bg1X + 800, 0, 800, 600);
+        }
+        bg1X += speedIncrease;
 
         image(building2, bg2X, 0, 700, 600);
+        if(bg2X <= 0) {
+            image(building2, bg2X + 900, 0, 700, 600);
+        }
+        bg2X += speedIncrease;
+
         image(building3, bg3X, 0, 600, 600);
+        if(bg3X <= 150) {
+            image(building3, bg3X + 800, 0, 850, 600);
+        }
+        bg3X += speedIncrease;
+
         bg1X -= 1;
         bg2X -= 2;
         bg3X -= 3;
 
-        if(bg1X <= -400) {
-            image(building1, bg1X)
-        }
+        
     }
 
     private void ground() {
