@@ -55,7 +55,7 @@ public class Sketch extends PApplet {
     @Override
     public void draw() {
         background(194, 194, 214);
-        bg();
+        //bg();
         ground();
         jumping();
         mainCharacter();
