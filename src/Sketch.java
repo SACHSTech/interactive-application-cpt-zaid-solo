@@ -28,6 +28,11 @@ public class Sketch extends PApplet {
     boolean onGround;
     boolean gravityFlipped = false;
 
+    float bg1X = 0;
+    float bg2X = 800;
+    float bg3X = 300;
+    
+
     
 
     @Override
@@ -35,17 +40,21 @@ public class Sketch extends PApplet {
         size(1000, 600); 
     }
 
-    PImage myImage;
+    PImage building1;
+    PImage building2;
+    PImage building3;
 
     @Override
     public void setup() {
-        myImage = loadImage("data/2.png");
+        building1 = loadImage("data/3.png");
+        building2 = loadImage("data/4.png");
+        building3 = loadImage("data/5.png");
 
     }
 
     @Override
     public void draw() {
-        background(230, 247, 255);
+        background(194, 194, 214);
         bg();
         ground();
         jumping();
@@ -53,7 +62,18 @@ public class Sketch extends PApplet {
     }
 
     private void bg() {
-        image(myImage, 0, 0, 1000, 600);
+        image(building1, bg1X, 0, 800, 600);
+        
+
+        image(building2, bg2X, 0, 700, 600);
+        image(building3, bg3X, 0, 600, 600);
+        bg1X -= 1;
+        bg2X -= 2;
+        bg3X -= 3;
+
+        if(bg1X <= -400) {
+            image(building1, bg1X)
+        }
     }
 
     private void ground() {
