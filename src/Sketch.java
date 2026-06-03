@@ -35,6 +35,8 @@ public class Sketch extends PApplet {
     // float bg1X = 0;
     // float bg2X = 800;
     // float bg3X = 300;
+
+    int gameState = 0;
     
 
     
@@ -60,15 +62,38 @@ public class Sketch extends PApplet {
 
     }
 
+
     @Override
     public void draw() {
         background(194, 194, 214);
+        if (gameState == 0) title();
+        else if (gameState == 1) {
         //bg();
-        ground();
-        jumping();
-        mainCharacter();
-        drone(droneX, 0);
-        droneX -= scrollSpeed;
+            ground();
+            jumping();
+            mainCharacter();
+            drone(droneX, 0);
+            droneX -= scrollSpeed;
+        }
+        else if (gameState == 2) {
+            gameOverScreen();
+        }
+    }
+        
+
+    private void title() {
+        background(10, 10, 30);
+        fill(0, 200, 255);
+        textSize(64);
+        textAlign(CENTER);
+        text("MOMENTUM RUSH", 500, 220);
+        fill(200);
+        textSize(24);
+        text("Press SPACE to start", 500, 340);
+    }
+
+    private void gameOverScreen() {
+        
     }
 
     // private void bg() {
@@ -151,6 +176,14 @@ public class Sketch extends PApplet {
     }
 
     public void keyPressed() {
+    if (key == ' ') {
+        if (gameState == 0) {
+            gameState = 1;
+        } else if (gameState == 2 && key == ' ') {
+            gameState = 1;
+        }
+        
+    }
        if ((key == 'w' || key == 'W' || keyCode == UP) && onGround) {
             if (gravityFlipped) {
                 velocity = 13;
