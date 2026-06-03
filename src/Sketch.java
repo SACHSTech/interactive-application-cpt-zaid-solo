@@ -30,7 +30,7 @@ public class Sketch extends PApplet {
     
     float droneX = random(300, 1000);
     float droneY = random(125, 475);
-    float droneV = 2;
+    float droneV = (float)(4);
 
     // float bg1X = 0;
     // float bg2X = 800;
@@ -67,7 +67,8 @@ public class Sketch extends PApplet {
         ground();
         jumping();
         mainCharacter();
-        drone(droneX, 125);
+        drone(droneX, 0);
+        droneX -= scrollSpeed;
     }
 
     // private void bg() {
