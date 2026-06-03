@@ -37,6 +37,8 @@ public class Sketch extends PApplet {
     // float bg3X = 300;
 
     int gameState = 0;
+
+    int[] obstacleY = new int{20, 40, 60, 100, 150};
     
 
     
@@ -93,7 +95,14 @@ public class Sketch extends PApplet {
     }
 
     private void gameOverScreen() {
-        
+        background(10, 10, 30);
+        fill(255, 50, 50);
+        textSize(64);
+        textAlign(CENTER);
+        text("GAME OVER", 500, 220);
+        fill(200);
+        textSize(24);
+        text("Press SPACE to restart", 500, 340);
     }
 
     // private void bg() {
