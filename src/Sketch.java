@@ -27,10 +27,14 @@ public class Sketch extends PApplet {
     float jump = -13;
     boolean onGround;
     boolean gravityFlipped = false;
+    
+    float droneX = random(300, 1000);
+    float droneY = random(125, 475);
+    float droneV = 2;
 
-    float bg1X = 0;
-    float bg2X = 800;
-    float bg3X = 300;
+    // float bg1X = 0;
+    // float bg2X = 800;
+    // float bg3X = 300;
     
 
     
@@ -40,15 +44,19 @@ public class Sketch extends PApplet {
         size(1000, 600); 
     }
 
-    PImage building1;
-    PImage building2;
-    PImage building3;
+    // PImage building1;
+    // PImage building2;
+    // PImage building3;
+    // PImage floorTile;
+    // PImage ceilingTile;
 
     @Override
     public void setup() {
-        building1 = loadImage("data/3.png");
-        building2 = loadImage("data/4.png");
-        building3 = loadImage("data/5.png");
+        // building1 = loadImage("data/3.png");
+        // building2 = loadImage("data/4.png");
+        // building3 = loadImage("data/5.png");
+
+        //floorTile = loadImage("IndustrialTile_81.png");
 
     }
 
@@ -59,33 +67,34 @@ public class Sketch extends PApplet {
         ground();
         jumping();
         mainCharacter();
+        drone(droneX, 125);
     }
 
-    private void bg() {
-        image(building1, bg1X, 0, 800, 600);
-        if(bg1X <= 0) {
-            image(building1, bg1X + 800, 0, 800, 600);
-        }
-        bg1X += speedIncrease;
+    // private void bg() {
+    //     image(building1, bg1X, 0, 800, 600);
+    //     if(bg1X <= 0) {
+    //         image(building1, bg1X + 800, 0, 800, 600);
+    //     }
+    //     bg1X += speedIncrease;
 
-        image(building2, bg2X, 0, 700, 600);
-        if(bg2X <= 0) {
-            image(building2, bg2X + 900, 0, 700, 600);
-        }
-        bg2X += speedIncrease;
+    //     image(building2, bg2X, 0, 700, 600);
+    //     if(bg2X <= 0) {
+    //         image(building2, bg2X + 900, 0, 700, 600);
+    //     }
+    //     bg2X += speedIncrease;
 
-        image(building3, bg3X, 0, 600, 600);
-        if(bg3X <= 150) {
-            image(building3, bg3X + 800, 0, 850, 600);
-        }
-        bg3X += speedIncrease;
+    //     image(building3, bg3X, 0, 600, 600);
+    //     if(bg3X <= 150) {
+    //         image(building3, bg3X + 800, 0, 850, 600);
+    //     }
+    //     bg3X += speedIncrease;
 
-        bg1X -= 1;
-        bg2X -= 2;
-        bg3X -= 3;
+    //     bg1X -= 1;
+    //     bg2X -= 2;
+    //     bg3X -= 3;
 
         
-    }
+    // }
 
     private void ground() {
         strokeWeight(0);
@@ -156,15 +165,30 @@ public class Sketch extends PApplet {
     }
 
    public void keyReleased() {
-    if (key == 'w' || key == 'W' || keyCode == UP) {
-        if (!gravityFlipped && velocity < 0) {
-            velocity *= 0.5f;
-        }
-        if (gravityFlipped && velocity > 0) {
-            velocity *= 0.5f;
+        if (key == 'w' || key == 'W' || keyCode == UP) {
+            if (!gravityFlipped && velocity < 0) {
+                velocity *= 0.5f;
+            }
+            if (gravityFlipped && velocity > 0) {
+                velocity *= 0.5f;
+            }
         }
     }
-}
+
+
+
+    
+
+    private void drone(float x, float y) {
+        fill(0);
+        rect(x + droneX, y + droneY, 75, 50);
+        droneY += droneV;
+        if (droneY >= 475 || droneY < 125) {
+            droneV *= -1;
+        }
+    }
+
+
 
 
     /** Additional helper methods below */
