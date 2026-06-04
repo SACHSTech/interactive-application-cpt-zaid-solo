@@ -157,20 +157,19 @@ public class Sketch extends PApplet {
         float tileW = width * 0.15f;
         float tileH = height * 0.2f;
 
-        if (rectStart + tileW < 0) { //once fully offscreen, telelports behind second rectangle waiting to begin moving
-            rectStart = rectEnd + tileW;
-        }
-        if (rectEnd + tileW < 0) {
-            rectEnd = rectStart + tileW;
+       rectStart -= scrollSpeed;
+        if (rectStart <= -tileW) {
+            rectStart = 0;  // reset every time one tile width has passed
         }
 
-        image(floorTile, rectStart, height * 0.8f, tileW, tileH);
-        image(floorTile, rectEnd, height * 0.8f, tileW, tileH);
-        
-        rect(rectStart, 0, tileW, tileH);
-        rect(rectEnd, 0, tileW, tileH);
-        
+        for (float x = rectStart; x < width; x += tileW) {
+            image(floorTile, x, height * 0.8f, tileW, tileH);
+            rect(x, 0, tileW, tileH);
+        }
     }
+
+
+    
 
     private void mainCharacter() {
         fill(0, 0, 0);
