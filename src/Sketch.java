@@ -44,7 +44,7 @@ public class Sketch extends PApplet {
 
     @Override
     public void settings() {
-        size(500, 250); 
+        size(500, 250, P2D); 
     }
 
     PImage building1;
