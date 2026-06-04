@@ -4,9 +4,12 @@
     {
       "label": "Run Sketch",
       "type": "shell",
-      "command": "javac -cp lib/core.jar -d bin src/Sketch.java && java -cp bin:lib/core.jar Sketch",
+      "command": "javac -cp \"lib/core.jar:lib/jogl-all.jar:lib/gluegen-rt.jar\" -d bin src/Sketch.java && java --enable-native-access=ALL-UNNAMED -cp \"bin:lib/core.jar:lib/jogl-all.jar:lib/gluegen-rt.jar:lib/jogl-all-natives-macosx-universal.jar:lib/gluegen-rt-natives-macosx-universal.jar\" Sketch",
+      "linux": {
+        "command": "javac -cp \"lib/core.jar:lib/jogl-all.jar:lib/gluegen-rt.jar\" -d bin src/Sketch.java && java --enable-native-access=ALL-UNNAMED -cp \"bin:lib/core.jar:lib/jogl-all.jar:lib/gluegen-rt.jar:lib/jogl-all-natives-linux-amd64.jar:lib/gluegen-rt-natives-linux-amd64.jar\" Sketch"
+      },
       "windows": {
-        "command": "javac -cp lib\\core.jar -d bin src\\Sketch.java && java -cp bin;lib\\core.jar Sketch",
+        "command": "javac -cp \"lib\\core.jar;lib\\jogl-all.jar;lib\\gluegen-rt.jar\" -d bin src\\Sketch.java && java --enable-native-access=ALL-UNNAMED -cp \"bin;lib\\core.jar;lib\\jogl-all.jar;lib\\gluegen-rt.jar;lib\\jogl-all-natives-windows-amd64.jar;lib\\gluegen-rt-natives-windows-amd64.jar\" Sketch",
         "options": {
           "shell": {
             "executable": "cmd.exe",
