@@ -20,7 +20,7 @@ public class Sketch extends PApplet {
     float rectStart;
     float rectEnd = width;
     float scrollSpeed = 2;
-    float speedIncrease = 0.002f;
+    float speedIncrease = 0.001f;
 
     float velocity = 0;
     float gravity = 0.6f;
@@ -165,9 +165,14 @@ public class Sketch extends PApplet {
 
         for (float x = rectStart; x < width; x += tileW) {
             image(floorTile, x, height * 0.8f, tileW, tileH);
-        
-            image(ceilingTile, x, height * 0.1f, tileW, tileH);
-        }
+            image(ceilingTile, x, height * 0.9f, tileW, tileH);
+            pushMatrix();
+            translate(x + tileW, height * 0.1f + tileH);
+            rotate(PI);
+            image(floorTile, 0, 25, tileW, tileH);
+            popMatrix();
+            image(ceilingTile, x, height * 0.0098f, tileW, tileH);
+            }
         
     }
 
