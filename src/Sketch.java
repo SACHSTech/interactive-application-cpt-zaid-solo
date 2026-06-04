@@ -32,13 +32,12 @@ public class Sketch extends PApplet {
     float droneY;
     float droneV = 4;
 
-    // float bg1X = 0;
-    // float bg2X = 800;
-    // float bg3X = 300;
+    float bg1X = 0;
+    float bg2X = 800;
+    float bg3X = 300;
 
     int gameState = 0;
 
-    float[] obsX = {}
     
 
     
@@ -48,11 +47,11 @@ public class Sketch extends PApplet {
         size(500, 250); 
     }
 
-    // PImage building1;
-    // PImage building2;
-    // PImage building3;
-    // PImage floorTile;
-    // PImage ceilingTile;
+    PImage building1;
+    PImage building2;
+    PImage building3;
+    PImage floorTile;
+    PImage ceilingTile;
 
     @Override
     public void setup() {
@@ -68,13 +67,13 @@ public class Sketch extends PApplet {
         droneX = random(width * 0.6f, width * 2f);
         droneY = random(height * 0.5f, height * 0.9f);
 
-        
+        boolean spikeOnBottom;
 
-        // building1 = loadImage("data/3.png");
-        // building2 = loadImage("data/4.png");
-        // building3 = loadImage("data/5.png");
+        building1 = loadImage("data/3.png");
+        building2 = loadImage("data/4.png");
+        building3 = loadImage("data/5.png");
 
-        //floorTile = loadImage("IndustrialTile_81.png");
+        floorTile = loadImage("data/IndustrialTile_81.png");
 
     }
 
@@ -84,7 +83,7 @@ public class Sketch extends PApplet {
         background(194, 194, 214);
         if (gameState == 0) title();
         else if (gameState == 1) {
-        //bg();
+        bg();
             ground();
             jumping();
             mainCharacter();
@@ -118,29 +117,31 @@ public class Sketch extends PApplet {
         text("Press SPACE to restart", 250, 160);
     }
 
-    // private void bg() {
-    //     image(building1, bg1X, 0, width, height);
-    //     if (bg1X <= 0) {
-    //         image(building1, bg1X + width, 0, width, height);
-    //     }
-    //     bg1X += speedIncrease;
-    //
-    //     image(building2, bg2X, 0, width * 0.875f, height);
-    //     if (bg2X <= 0) {
-    //         image(building2, bg2X + width * 1.125f, 0, width * 0.875f, height);
-    //     }
-    //     bg2X += speedIncrease;
-    //
-    //     image(building3, bg3X, 0, width * 0.75f, height);
-    //     if (bg3X <= width * 0.1875f) {
-    //         image(building3, bg3X + width, 0, width * 1.0625f, height);
-    //     }
-    //     bg3X += speedIncrease;
-    //
-    //     bg1X -= 1;
-    //     bg2X -= 2;
-    //     bg3X -= 3;
-    // }
+    private void bg() {
+    // layer 1 - slowest
+    if (bg1X + width < 0) {
+        bg1X = 0;  // reset back to start once fully offscreen
+    }
+    image(building1, bg1X, 0, width, height);
+    image(building1, bg1X + width, 0, width, height);  // always draw second copy behind
+    bg1X -= 1;
+
+    // layer 2 - medium
+    if (bg2X + width < 0) {
+        bg2X = 0;
+    }
+    image(building2, bg2X, 0, width, height);
+    image(building2, bg2X + width, 0, width, height);
+    bg2X -= 2;
+
+    // layer 3 - fastest
+    if (bg3X + width < 0) {
+        bg3X = 0;
+    }
+    image(building3, bg3X, 0, width, height);
+    image(building3, bg3X + width, 0, width, height);
+    bg3X -= 3;
+    }
 
     private void ground() {
         strokeWeight(0);
@@ -153,8 +154,8 @@ public class Sketch extends PApplet {
         rectStart -= scrollSpeed;
         rectEnd -= scrollSpeed;
 
-        float tileW = width;
-        float tileH = height *0.2f;
+        float tileW = width * 0.15f;
+        float tileH = height * 0.2f;
 
         if (rectStart + tileW < 0) { //once fully offscreen, telelports behind second rectangle waiting to begin moving
             rectStart = rectEnd + tileW;
@@ -163,8 +164,8 @@ public class Sketch extends PApplet {
             rectEnd = rectStart + tileW;
         }
 
-        rect(rectStart, height * 0.8f, tileW, tileH);
-        rect(rectEnd, height * 0.8f, tileW, tileH);
+        image(floorTile, rectStart, height * 0.8f, tileW, tileH);
+        image(floorTile, rectEnd, height * 0.8f, tileW, tileH);
         
         rect(rectStart, 0, tileW, tileH);
         rect(rectEnd, 0, tileW, tileH);
@@ -253,9 +254,6 @@ public class Sketch extends PApplet {
     droneX -= droneSpeed;
 }
 
-private void hitbox() {
-    if (mcX)
-}
 
 
 
