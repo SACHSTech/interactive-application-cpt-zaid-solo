@@ -12,13 +12,13 @@ public class Sketch extends PApplet {
     }
 
     //variables for setup
-    float mcX = 100;
-    float mcY = 475;
-    float groundPOS1 = 475;
-    float groundPOS2 = 125;
+    float mcX;
+    float mcY;
+    float groundPOS1;
+    float groundPOS2;
 
-    float rectStart = 0;
-    float rectEnd = 1000;
+    float rectStart;
+    float rectEnd = width;
     float scrollSpeed = 2;
     float speedIncrease = 0.002f;
 
@@ -28,9 +28,9 @@ public class Sketch extends PApplet {
     boolean onGround;
     boolean gravityFlipped = false;
     
-    float droneX = random(300, 1000);
-    float droneY = random(125, 475);
-    float droneV = (float)(4);
+    float droneX;
+    float droneY;
+    float droneV = 4;
 
     // float bg1X = 0;
     // float bg2X = 800;
@@ -38,14 +38,14 @@ public class Sketch extends PApplet {
 
     int gameState = 0;
 
-    int[] obstacleY = new int{20, 40, 60, 100, 150};
+    // int[] obstacleY = new int{20, 40, 60, 100, 150};
     
 
     
 
     @Override
     public void settings() {
-        size(1000, 600); 
+        size(500, 250); 
     }
 
     // PImage building1;
@@ -56,6 +56,18 @@ public class Sketch extends PApplet {
 
     @Override
     public void setup() {
+        mcX = width * 0.002f; //20% from left side
+        mcY = height * 0.9f; //sit on bottom
+
+        groundPOS1 = height * 0.9f; // floor point
+        groundPOS2 = height * 0.1f; // ceiling point (flipped gravity)
+
+        rectStart  = 0;
+        rectEnd    = width;
+
+        droneX = random(width * 0.6f, width * 2f);
+        droneY = random(height * 0.5f, height * 0.9f);
+
         // building1 = loadImage("data/3.png");
         // building2 = loadImage("data/4.png");
         // building3 = loadImage("data/5.png");
@@ -86,49 +98,47 @@ public class Sketch extends PApplet {
     private void title() {
         background(10, 10, 30);
         fill(0, 200, 255);
-        textSize(64);
+        textSize(45);
         textAlign(CENTER);
-        text("MOMENTUM RUSH", 500, 220);
+        text("MOMENTUM RUSH", 250, 100);
         fill(200);
         textSize(24);
-        text("Press SPACE to start", 500, 340);
+        text("Press SPACE to start", 250, 160);
     }
 
     private void gameOverScreen() {
         background(10, 10, 30);
         fill(255, 50, 50);
-        textSize(64);
+        textSize(45);
         textAlign(CENTER);
-        text("GAME OVER", 500, 220);
+        text("GAME OVER", 250, 160);
         fill(200);
         textSize(24);
-        text("Press SPACE to restart", 500, 340);
+        text("Press SPACE to restart", 250, 160);
     }
 
     // private void bg() {
-    //     image(building1, bg1X, 0, 800, 600);
-    //     if(bg1X <= 0) {
-    //         image(building1, bg1X + 800, 0, 800, 600);
+    //     image(building1, bg1X, 0, width, height);
+    //     if (bg1X <= 0) {
+    //         image(building1, bg1X + width, 0, width, height);
     //     }
     //     bg1X += speedIncrease;
-
-    //     image(building2, bg2X, 0, 700, 600);
-    //     if(bg2X <= 0) {
-    //         image(building2, bg2X + 900, 0, 700, 600);
+    //
+    //     image(building2, bg2X, 0, width * 0.875f, height);
+    //     if (bg2X <= 0) {
+    //         image(building2, bg2X + width * 1.125f, 0, width * 0.875f, height);
     //     }
     //     bg2X += speedIncrease;
-
-    //     image(building3, bg3X, 0, 600, 600);
-    //     if(bg3X <= 150) {
-    //         image(building3, bg3X + 800, 0, 850, 600);
+    //
+    //     image(building3, bg3X, 0, width * 0.75f, height);
+    //     if (bg3X <= width * 0.1875f) {
+    //         image(building3, bg3X + width, 0, width * 1.0625f, height);
     //     }
     //     bg3X += speedIncrease;
-
+    //
     //     bg1X -= 1;
     //     bg2X -= 2;
     //     bg3X -= 3;
-
-        
     // }
 
     private void ground() {
@@ -142,18 +152,21 @@ public class Sketch extends PApplet {
         rectStart -= scrollSpeed;
         rectEnd -= scrollSpeed;
 
-        if (rectStart + 1000 < 0) { //once fully offscreen, telelports behind second rectangle waiting to begin moving
-            rectStart = rectEnd + 1000;
+        float tileW = width;
+        float tileH = height *0.2f;
+
+        if (rectStart + tileW < 0) { //once fully offscreen, telelports behind second rectangle waiting to begin moving
+            rectStart = rectEnd + tileW;
         }
-        if (rectEnd + 1000 < 0) {
-            rectEnd = rectStart + 1000;
+        if (rectEnd + tileW < 0) {
+            rectEnd = rectStart + tileW;
         }
 
-        rect(rectStart, 500, 1000, 100);
-        rect(rectEnd, 500, 1000, 100);
+        rect(rectStart, height * 0.8f, tileW, tileH);
+        rect(rectEnd, height * 0.8f, tileQ, tileH);
         
-        rect(rectStart, 0, 1000, 100);
-        rect(rectEnd, 0, 1000, 100);
+        rect(rectStart, 0, tileW, tileH);
+        rect(rectEnd, 0, tileW, tileH);
         
     }
 
