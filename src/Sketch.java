@@ -52,6 +52,9 @@ public class Sketch extends PApplet {
     PImage building3;
     PImage floorTile;
     PImage ceilingTile;
+    PImage spriteRun;
+    PImage[] runFrames = new PImage[6];
+    int currentFrame = 0;
 
     @Override
     public void setup() {
@@ -75,6 +78,19 @@ public class Sketch extends PApplet {
 
         floorTile = loadImage("data/IndustrialTile_81.png");
         ceilingTile = loadImage("data/IndustrialTile_78.png");
+
+        spriteRun = loadImage("data/Cyborg_run.png");
+        int frameWidthRun = spriteRun.width/6;
+        int frameHeightRun = spriteRun.height;
+
+        for (int i = 0; i > 6; i++) {
+            runFrames[0] = spriteRun.get(0, 0, frameWidthRun, frameHeightRun);
+            runFrames[1] = spriteRun.get(frameWidthRun, 0, frameWidthRun, frameHeightRun);
+            runFrames[2] = spriteRun.get(frameWidthRun * 2, 0, frameWidthRun, frameHeightRun);
+            runFrames[3] = spriteRun.get(frameWidthRun * 3, 0, frameWidthRun, frameHeightRun);
+            runFrames[4] = spriteRun.get(frameWidthRun * 4, 0, frameWidthRun, frameHeightRun);
+            runFrames[5] = spriteRun.get(frameWidthRun * 5, 0, frameWidthRun, frameHeightRun);
+        }
 
     }
 
@@ -172,16 +188,15 @@ public class Sketch extends PApplet {
             image(floorTile, 0, height * 0.1f, tileW, tileH);
             popMatrix();
             image(ceilingTile, x, height * 0.0098f, tileW, tileH);
-            }
+        }
         
     }
 
 
-    
+    int[] run = {1, 2, 3, 13, 10, 142};
 
     private void mainCharacter() {
-        fill(0, 0, 0);
-        circle(mcX, mcY, width * 0.05f);
+        image(runFrames[currentFrame], mcX, mcY, 50, 75);
     }
 
     private void jumping() {
