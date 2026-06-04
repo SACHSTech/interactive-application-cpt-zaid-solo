@@ -169,7 +169,7 @@ public class Sketch extends PApplet {
             pushMatrix();
             translate(x + tileW, height * 0.1f + tileH);
             rotate(PI);
-            image(floorTile, 0, 25, tileW, tileH);
+            image(floorTile, 0, height * 0.1f, tileW, tileH);
             popMatrix();
             image(ceilingTile, x, height * 0.0098f, tileW, tileH);
             }
