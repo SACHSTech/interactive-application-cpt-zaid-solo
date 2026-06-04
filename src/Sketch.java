@@ -24,7 +24,7 @@ public class Sketch extends PApplet {
 
     float velocity = 0;
     float gravity = 0.6f;
-    float jump = -13;
+    float jump = -8.5f;
     boolean onGround;
     boolean gravityFlipped = false;
     
@@ -38,7 +38,7 @@ public class Sketch extends PApplet {
 
     int gameState = 0;
 
-    // int[] obstacleY = new int{20, 40, 60, 100, 150};
+    float[] obsX = {}
     
 
     
@@ -56,17 +56,19 @@ public class Sketch extends PApplet {
 
     @Override
     public void setup() {
-        mcX = width * 0.002f; //20% from left side
-        mcY = height * 0.9f; //sit on bottom
+        mcX = width * 0.1f; //20% from left side
+        mcY = height * 0.8f; //sit on bottom
 
-        groundPOS1 = height * 0.9f; // floor point
-        groundPOS2 = height * 0.1f; // ceiling point (flipped gravity)
+        groundPOS1 = height * 0.75f; // floor point
+        groundPOS2 = height * 0.25f; // ceiling point (flipped gravity)
 
         rectStart  = 0;
         rectEnd    = width;
 
         droneX = random(width * 0.6f, width * 2f);
         droneY = random(height * 0.5f, height * 0.9f);
+
+        
 
         // building1 = loadImage("data/3.png");
         // building2 = loadImage("data/4.png");
@@ -87,7 +89,6 @@ public class Sketch extends PApplet {
             jumping();
             mainCharacter();
             drone(droneX, 0);
-            droneX -= scrollSpeed;
         }
         else if (gameState == 2) {
             gameOverScreen();
@@ -163,7 +164,7 @@ public class Sketch extends PApplet {
         }
 
         rect(rectStart, height * 0.8f, tileW, tileH);
-        rect(rectEnd, height * 0.8f, tileQ, tileH);
+        rect(rectEnd, height * 0.8f, tileW, tileH);
         
         rect(rectStart, 0, tileW, tileH);
         rect(rectEnd, 0, tileW, tileH);
@@ -172,7 +173,7 @@ public class Sketch extends PApplet {
 
     private void mainCharacter() {
         fill(0, 0, 0);
-        circle(mcX, mcY, 50);
+        circle(mcX, mcY, width * 0.05f);
     }
 
     private void jumping() {
@@ -208,7 +209,7 @@ public class Sketch extends PApplet {
     }
        if ((key == 'w' || key == 'W' || keyCode == UP) && onGround) {
             if (gravityFlipped) {
-                velocity = 13;
+                velocity = -jump;
             } else {
                 velocity = jump;
             }
@@ -231,18 +232,30 @@ public class Sketch extends PApplet {
         }
     }
 
-
-
-    
-
     private void drone(float x, float y) {
-        fill(0);
-        rect(x + droneX, y + droneY, 75, 50);
-        droneY += droneV;
-        if (droneY >= 475 || droneY < 125) {
-            droneV *= -1;
-        }
+    fill(0);
+    float dW = width * 0.06f;
+    float dH = height * 0.09f;
+
+    rect(x + droneX, y + droneY, dW, dH);
+
+    float droneSpeed = scrollSpeed * 0.6f;
+    droneY += droneV;
+
+    if (droneY + dH >= groundPOS1) {
+        droneY = groundPOS1 - dH;  // clamp to floor
+        droneV *= -1;
+    } else if (droneY <= groundPOS2) {
+        droneY = groundPOS2;       // clamp to ceiling
+        droneV *= -1;
     }
+
+    droneX -= droneSpeed;
+}
+
+private void hitbox() {
+    if (mcX)
+}
 
 
 
