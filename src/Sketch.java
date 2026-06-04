@@ -74,6 +74,7 @@ public class Sketch extends PApplet {
         building3 = loadImage("data/5.png");
 
         floorTile = loadImage("data/IndustrialTile_81.png");
+        ceilingTile = loadImage("data/IndustrialTile_78.png");
 
     }
 
@@ -118,30 +119,30 @@ public class Sketch extends PApplet {
     }
 
     private void bg() {
-    // layer 1 - slowest
-    if (bg1X + width < 0) {
-        bg1X = 0;  // reset back to start once fully offscreen
-    }
-    image(building1, bg1X, 0, width, height);
-    image(building1, bg1X + width, 0, width, height);  // always draw second copy behind
-    bg1X -= 1;
+        // layer 1 - slowest
+        if (bg1X + width < 0) {
+            bg1X = 0;  // reset back to start once fully offscreen
+        }
+        image(building1, bg1X, 0, width, height);
+        image(building1, bg1X + width, 0, width, height);  // always draw second copy behind
+        bg1X -= 1;
 
-    // layer 2 - medium
-    if (bg2X + width < 0) {
-        bg2X = 0;
-    }
-    image(building2, bg2X, 0, width, height);
-    image(building2, bg2X + width, 0, width, height);
-    bg2X -= 2;
+        // layer 2 - medium
+        if (bg2X + width < 0) {
+            bg2X = 0;
+        }
+        image(building2, bg2X, 0, width, height);
+        image(building2, bg2X + width, 0, width, height);
+        bg2X -= 2;
 
-    // layer 3 - fastest
-    if (bg3X + width < 0) {
-        bg3X = 0;
-    }
-    image(building3, bg3X, 0, width, height);
-    image(building3, bg3X + width, 0, width, height);
-    bg3X -= 3;
-    }
+        // layer 3 - fastest
+        if (bg3X + width < 0) {
+            bg3X = 0;
+        }
+        image(building3, bg3X, 0, width, height);
+        image(building3, bg3X + width, 0, width, height);
+        bg3X -= 3;
+        }
 
     private void ground() {
         strokeWeight(0);
@@ -164,8 +165,10 @@ public class Sketch extends PApplet {
 
         for (float x = rectStart; x < width; x += tileW) {
             image(floorTile, x, height * 0.8f, tileW, tileH);
-            rect(x, 0, tileW, tileH);
+        
+            image(ceilingTile, x, height * 0.1f, tileW, tileH);
         }
+        
     }
 
 
@@ -199,14 +202,14 @@ public class Sketch extends PApplet {
     }
 
     public void keyPressed() {
-    if (key == ' ') {
-        if (gameState == 0) {
-            gameState = 1;
-        } else if (gameState == 2 && key == ' ') {
-            gameState = 1;
+        if (key == ' ') {
+            if (gameState == 0) {
+                gameState = 1;
+            } else if (gameState == 2 && key == ' ') {
+                gameState = 1;
+            }
+            
         }
-        
-    }
        if ((key == 'w' || key == 'W' || keyCode == UP) && onGround) {
             if (gravityFlipped) {
                 velocity = -jump;
@@ -233,25 +236,25 @@ public class Sketch extends PApplet {
     }
 
     private void drone(float x, float y) {
-    fill(0);
-    float dW = width * 0.06f;
-    float dH = height * 0.09f;
+        fill(0);
+        float dW = width * 0.06f;
+        float dH = height * 0.09f;
 
-    rect(x + droneX, y + droneY, dW, dH);
+        rect(x + droneX, y + droneY, dW, dH);
 
-    float droneSpeed = scrollSpeed * 0.6f;
-    droneY += droneV;
+        float droneSpeed = scrollSpeed * 0.6f;
+        droneY += droneV;
 
-    if (droneY + dH >= groundPOS1) {
-        droneY = groundPOS1 - dH;  // clamp to floor
-        droneV *= -1;
-    } else if (droneY <= groundPOS2) {
-        droneY = groundPOS2;       // clamp to ceiling
-        droneV *= -1;
+        if (droneY + dH >= groundPOS1) {
+            droneY = groundPOS1 - dH;  // clamp to floor
+            droneV *= -1;
+        } else if (droneY <= groundPOS2) {
+            droneY = groundPOS2;       // clamp to ceiling
+            droneV *= -1;
+        }
+
+        droneX -= droneSpeed;
     }
-
-    droneX -= droneSpeed;
-}
 
 
 
