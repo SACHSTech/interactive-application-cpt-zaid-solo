@@ -206,8 +206,18 @@ public class Sketch extends PApplet {
 
 
     private void mainCharacter() {
-        if (!onGround) jumpState = true;
-        else jumpState = false;  
+        boolean wasJumping = jumpState;
+        if (!onGround) {
+            jumpState = true;
+        } else {
+            jumpState = false;  
+        }
+
+        if (wasJumping != jumpState) {
+            currentFrame = 0;
+            frameTimer = 0;
+        }
+
 
         frameTimer++;
 
@@ -216,13 +226,29 @@ public class Sketch extends PApplet {
                 currentFrame = (currentFrame + 1) % 6;
                 frameTimer = 0;
             }
-            image(runFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
+            if (gravityFlipped) {
+                pushMatrix();
+                translate(mcX - 25, mcY - 62 + 75);  
+                scale(1, -1);
+                image(runFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
+                popMatrix();
+            } else {
+                image(runFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
+            }
         } else {
             if (frameTimer >= frameDelayJump) {
                 currentFrame = (currentFrame + 1) % 4;
                 frameTimer = 0;
             }
-            image(jumpFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
+            if(gravityFlipped) {
+                pushMatrix();
+                translate(mcX - 25, mcY - 62 + 75);
+                scale(1, -1);
+                image(jumpFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
+                popMatrix();
+            } else {
+                image(jumpFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
+            }
         }
     }
 
