@@ -41,7 +41,11 @@ public class Sketch extends PApplet {
     int currentFrame = 0;
     int frameTimer = 0;
     int frameDelay = 6;
+    int frameDelayJump = 4;
     PImage[] runFrames;
+    PImage[] jumpFrames;
+
+    boolean jumpState = false;
 
     
 
@@ -56,6 +60,7 @@ public class Sketch extends PApplet {
     PImage floorTile;
     PImage ceilingTile;
     PImage spriteRun;
+    PImage spriteJump;
     
 
     @Override
@@ -83,13 +88,20 @@ public class Sketch extends PApplet {
 
         spriteRun = loadImage("data/Cyborg_run.png");
        
-        spriteRun = loadImage("data/Cyborg_run.png");
+        spriteJump = loadImage("data/Cyborg_jump.png");
 
         runFrames = new PImage[6];
         int frameW = spriteRun.width / 6;
         int frameH = spriteRun.height;
         for(int i = 0; i < 6; i++) {
             runFrames[i] = spriteRun.get(i * frameW, 0, frameW, frameH);
+        }
+
+        jumpFrames = new PImage[4];
+        int frameJW = spriteJump.width / 4;
+        int frameJH = spriteJump.height;
+        for(int i = 0; i < 4; i++) {
+            jumpFrames[i] = spriteJump.get(i * frameJW, 0, frameJW, frameJH);
         }
 
     }
@@ -192,12 +204,24 @@ public class Sketch extends PApplet {
 
 
     private void mainCharacter() {
+        if (!onGround) jumpState = true;
+        else jumpState = false;  
+
         frameTimer++;
-        if(frameTimer >= frameDelay) {
-            currentFrame = (currentFrame + 1) % 6;
-            frameTimer = 0;
+
+        if (!jumpState) {
+            if (frameTimer >= frameDelay) {
+                currentFrame = (currentFrame + 1) % 6;
+                frameTimer = 0;
+            }
+            image(runFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
+        } else {
+            if (frameTimer >= frameDelayJump) {
+                currentFrame = (currentFrame + 1) % 4;
+                frameTimer = 0;
+            }
+            image(jumpFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
         }
-        image(runFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
     }
 
     private void jumping() {
@@ -236,6 +260,8 @@ public class Sketch extends PApplet {
                 velocity = -jump;
             } else {
                 velocity = jump;
+                jumpState = true;
+                currentFrame = 0;  
             }
             onGround = false;
         }
