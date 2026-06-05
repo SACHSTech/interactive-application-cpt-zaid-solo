@@ -61,6 +61,7 @@ public class Sketch extends PApplet {
     PImage ceilingTile;
     PImage spriteRun;
     PImage spriteJump;
+    PImage barrel;
     
 
     @Override
@@ -104,6 +105,8 @@ public class Sketch extends PApplet {
             jumpFrames[i] = spriteJump.get(i * frameJW, 0, frameJW, frameJH);
         }
 
+        barrel = loadImage("data/Barrel_1.png");
+
     }
 
 
@@ -122,7 +125,7 @@ public class Sketch extends PApplet {
         ground();
         jumping();
         mainCharacter();
-        drone(droneX, 0);
+        obstacle1();
     }
         
 
@@ -274,6 +277,7 @@ public class Sketch extends PApplet {
 
     }
 
+
     public void keyPressed() {
         if (key == ' ') {
             if (gameState == 0) {
@@ -310,25 +314,11 @@ public class Sketch extends PApplet {
         }
     }
 
-    private void drone(float x, float y) {
-        fill(0);
-        float dW = width * 0.06f;
-        float dH = height * 0.09f;
+    float[] obsPOS = new float[3] //0 = obs1, 1 = obs2, and 2 = obs3
+    obsPOS[0] = random(0, width);
 
-        rect(x + droneX, y + droneY, dW, dH);
-
-        float droneSpeed = scrollSpeed * 0.6f;
-        droneY += droneV;
-
-        if (droneY + dH >= groundPOS1) {
-            droneY = groundPOS1 - dH;  // clamp to floor
-            droneV *= -1;
-        } else if (droneY <= groundPOS2) {
-            droneY = groundPOS2;      
-            droneV *= -1;
-        }
-
-        droneX -= droneSpeed;
+    private void obstacle1() {
+        image(barrel, obsPOS[0], height * 0.8, 25, 50);
     }
 
     /** Additional helper methods below */
