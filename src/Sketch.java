@@ -112,15 +112,17 @@ public class Sketch extends PApplet {
         background(194, 194, 214);
         if (gameState == 0) title();
         else if (gameState == 1) {
+            methodDecomp();
+        } else if (gameState == 2) {
+            gameOverScreen(); }
+    }
+
+    private void methodDecomp() {
         bg();
-            ground();
-            jumping();
-            mainCharacter();
-            drone(droneX, 0);
-        }
-        else if (gameState == 2) {
-            gameOverScreen();
-        }
+        ground();
+        jumping();
+        mainCharacter();
+        drone(droneX, 0);
     }
         
 
@@ -296,16 +298,12 @@ public class Sketch extends PApplet {
             droneY = groundPOS1 - dH;  // clamp to floor
             droneV *= -1;
         } else if (droneY <= groundPOS2) {
-            droneY = groundPOS2;       // clamp to ceiling
+            droneY = groundPOS2;      
             droneV *= -1;
         }
 
         droneX -= droneSpeed;
     }
-
-
-
-
 
     /** Additional helper methods below */
 
