@@ -38,7 +38,11 @@ public class Sketch extends PApplet {
 
     int gameState = 0;
 
-    
+    int currentFrame = 0;
+    int frameTimer = 0;
+    int frameDelay = 6;
+    int frameCount = 6;
+    PImage[] runFrames;
 
     
 
@@ -53,8 +57,7 @@ public class Sketch extends PApplet {
     PImage floorTile;
     PImage ceilingTile;
     PImage spriteRun;
-    PImage[] runFrames = new PImage[6];
-    int currentFrame = 0;
+    
 
     @Override
     public void setup() {
@@ -80,16 +83,12 @@ public class Sketch extends PApplet {
         ceilingTile = loadImage("data/IndustrialTile_78.png");
 
         spriteRun = loadImage("data/Cyborg_run.png");
-        int frameWidthRun = spriteRun.width/6;
-        int frameHeightRun = spriteRun.height;
-
-        for (int i = 0; i > 6; i++) {
-            runFrames[0] = spriteRun.get(0, 0, frameWidthRun, frameHeightRun);
-            runFrames[1] = spriteRun.get(frameWidthRun, 0, frameWidthRun, frameHeightRun);
-            runFrames[2] = spriteRun.get(frameWidthRun * 2, 0, frameWidthRun, frameHeightRun);
-            runFrames[3] = spriteRun.get(frameWidthRun * 3, 0, frameWidthRun, frameHeightRun);
-            runFrames[4] = spriteRun.get(frameWidthRun * 4, 0, frameWidthRun, frameHeightRun);
-            runFrames[5] = spriteRun.get(frameWidthRun * 5, 0, frameWidthRun, frameHeightRun);
+       
+        runFrames = new PImage[frameCount];
+        int frameW = spriteRun.width / framecount;
+        int frameH = spriteRun.height;
+        for(int i = 0; i < framecount; i++) {
+            runFrames[i] = spriteRun.get(i * frameW, 0, frameW, frameH);
         }
 
     }
@@ -192,8 +191,6 @@ public class Sketch extends PApplet {
         
     }
 
-
-    int[] run = {1, 2, 3, 13, 10, 142};
 
     private void mainCharacter() {
         image(runFrames[currentFrame], mcX, mcY, 50, 75);
