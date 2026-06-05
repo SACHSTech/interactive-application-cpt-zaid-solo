@@ -230,7 +230,7 @@ public class Sketch extends PApplet {
                 pushMatrix();
                 translate(mcX - 25, mcY - 62 + 75);  
                 scale(1, -1);
-                image(runFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
+                image(runFrames[currentFrame],0, 0 - 50, 50, 75);
                 popMatrix();
             } else {
                 image(runFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
@@ -244,7 +244,7 @@ public class Sketch extends PApplet {
                 pushMatrix();
                 translate(mcX - 25, mcY - 62 + 75);
                 scale(1, -1);
-                image(jumpFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
+                image(jumpFrames[currentFrame], 0, 0 - 50, 50, 75);
                 popMatrix();
             } else {
                 image(jumpFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
