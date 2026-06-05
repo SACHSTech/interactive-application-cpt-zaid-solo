@@ -41,7 +41,6 @@ public class Sketch extends PApplet {
     int currentFrame = 0;
     int frameTimer = 0;
     int frameDelay = 6;
-    int frameCount = 6;
     PImage[] runFrames;
 
     
@@ -84,10 +83,12 @@ public class Sketch extends PApplet {
 
         spriteRun = loadImage("data/Cyborg_run.png");
        
-        runFrames = new PImage[frameCount];
-        int frameW = spriteRun.width / framecount;
+        spriteRun = loadImage("data/Cyborg_run.png");
+
+        runFrames = new PImage[6];
+        int frameW = spriteRun.width / 6;
         int frameH = spriteRun.height;
-        for(int i = 0; i < framecount; i++) {
+        for(int i = 0; i < 6; i++) {
             runFrames[i] = spriteRun.get(i * frameW, 0, frameW, frameH);
         }
 
@@ -134,7 +135,6 @@ public class Sketch extends PApplet {
     }
 
     private void bg() {
-        // layer 1 - slowest
         if (bg1X + width < 0) {
             bg1X = 0;  // reset back to start once fully offscreen
         }
@@ -142,7 +142,6 @@ public class Sketch extends PApplet {
         image(building1, bg1X + width, 0, width, height);  // always draw second copy behind
         bg1X -= 1;
 
-        // layer 2 - medium
         if (bg2X + width < 0) {
             bg2X = 0;
         }
@@ -150,7 +149,7 @@ public class Sketch extends PApplet {
         image(building2, bg2X + width, 0, width, height);
         bg2X -= 2;
 
-        // layer 3 - fastest
+    
         if (bg3X + width < 0) {
             bg3X = 0;
         }
@@ -193,7 +192,12 @@ public class Sketch extends PApplet {
 
 
     private void mainCharacter() {
-        image(runFrames[currentFrame], mcX, mcY, 50, 75);
+        frameTimer++;
+        if(frameTimer >= frameDelay) {
+            currentFrame = (currentFrame + 1) % 6;
+            frameTimer = 0;
+        }
+        image(runFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
     }
 
     private void jumping() {
