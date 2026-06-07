@@ -64,6 +64,10 @@ public class Sketch extends PApplet {
     PImage barrel;
 
     float barrelNumber;
+    float barrelX;
+    float negativeSpeed = -20f;
+    boolean barrelFlipped;
+    float barrelY;
     
 
     @Override
@@ -110,7 +114,8 @@ public class Sketch extends PApplet {
 
         barrelX = width * 0.6f;
         barrelNumber = random(0, 10);
-
+        barrelFlipped = random(1) > 0.3f;
+        barrelY = height * 0.64f;
     }
 
 
@@ -319,24 +324,51 @@ public class Sketch extends PApplet {
             }
         }
     }
-
-    float barrelX;
-    float negativeSpeed = -20f;
     
 
     private void barrel() {
+    // rest of code
+    if (barrelFlipped) {
+        barrelY = groundPOS2;
+    } else {
+        barrelY = height * 0.64f;
+    }
+
+    if (barrelFlipped) {
         if (barrelNumber <= 4) {
-            image(barrel, barrelX, height * 0.64f, 20, 40);
-            image(barrel, barrelX + 20, height * 0.64f, 20, 40);
+            pushMatrix();
+            translate(barrelX, barrelY + 40);
+            scale(1, -1);
+            image(barrel, 0, 0 + 15, 20, 40);
+            popMatrix();
+
+            pushMatrix();
+            translate(barrelX + 20, barrelY + 40);
+            scale(1, -1);
+            image(barrel, 0, 0 + 15, 20, 40);
+            popMatrix();
         } else {
-            image(barrel, barrelX, height * 0.64f, 20, 40);
+            pushMatrix();
+            translate(barrelX, barrelY + 40);
+            scale(1, -1);
+            image(barrel, 0, 0 + 15, 20, 40);
+            popMatrix();
+        }
+        } else {
+            if (barrelNumber <= 4) {
+                image(barrel, barrelX, barrelY, 20, 40);
+                image(barrel, barrelX + 20, barrelY, 20, 40);
+            } else {
+                image(barrel, barrelX, barrelY, 20, 40);
+            }
         }
 
         barrelX -= scrollSpeed;
 
         if (barrelX < -40) {
             barrelX = width + random(width * 0.5f, width * 1.5f);
-            barrelNumber = random(0, 10); 
+            barrelNumber = random(0, 10);
+            barrelFlipped = random(1) > 0.5f;
         }
     }
    
@@ -350,19 +382,17 @@ public class Sketch extends PApplet {
     }
 
     private void checkAllHitboxes() {
-        // barrel 1
-        if (hitbox(barrelX + 5, height * 0.64f, 20, height * 0.35f)) {
-            gameState = 2; //checks if touching obstacle
-        }
-        // barrel 2 (only when double barrel)
-        if (barrelNumber <= 4) {
-            if (hitbox(barrelX + 25, height * 0.64f, 20, height * 0.35f)) {
-                gameState = 2;
+        if (barrelFlipped) {
+            if (hitbox(barrelX, barrelY, 20, 20)) gameState = 2;  // shorter height
+            if (barrelNumber <= 4) {
+                if (hitbox(barrelX + 20, barrelY, 20, 20)) gameState = 2;
+            }
+        } else {
+            if (hitbox(barrelX, barrelY, 20, 40)) gameState = 2;
+            if (barrelNumber <= 4) {
+                if (hitbox(barrelX + 20, barrelY, 20, 40)) gameState = 2;
             }
         }
-        
-        // add more lines for future obstacles
-        // if (hitbox(droneX, droneY, dW, dH)) gameState = 2;
     }
 
     private void resetGame() {
