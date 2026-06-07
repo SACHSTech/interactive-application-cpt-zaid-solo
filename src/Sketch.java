@@ -62,6 +62,8 @@ public class Sketch extends PApplet {
     PImage spriteRun;
     PImage spriteJump;
     PImage barrel;
+
+    float barrelNumber;
     
 
     @Override
@@ -78,7 +80,6 @@ public class Sketch extends PApplet {
         droneX = random(width * 0.6f, width * 2f);
         droneY = random(height * 0.5f, height * 0.9f);
 
-        boolean spikeOnBottom;
 
         building1 = loadImage("data/3.png");
         building2 = loadImage("data/4.png");
@@ -105,7 +106,10 @@ public class Sketch extends PApplet {
             jumpFrames[i] = spriteJump.get(i * frameJW, 0, frameJW, frameJH);
         }
 
-        barrel = loadImage("data/Barrel_1.png");
+        barrel = loadImage("data/Barrel1.png");
+
+        barrelX = width * 0.6f;
+        barrelNumber = random(0, 10);
 
     }
 
@@ -125,7 +129,7 @@ public class Sketch extends PApplet {
         ground();
         jumping();
         mainCharacter();
-        obstacle1();
+        barrel();
     }
         
 
@@ -314,11 +318,24 @@ public class Sketch extends PApplet {
         }
     }
 
-    float[] obsPOS = new float[3] //0 = obs1, 1 = obs2, and 2 = obs3
-    obsPOS[0] = random(0, width);
+    float barrelX;
+    float negativeSpeed = -20f;
+    
 
-    private void obstacle1() {
-        image(barrel, obsPOS[0], height * 0.8, 25, 50);
+    private void barrel() {
+        if (barrelNumber <= 4) {
+            image(barrel, barrelX, height * 0.64f, 20, 40);
+            image(barrel, barrelX + 20, height * 0.64f, 20, 40);
+        } else {
+            image(barrel, barrelX, height * 0.64f, 20, 40);
+        }
+
+        barrelX -= scrollSpeed;
+
+        if (barrelX < -40) {
+            barrelX = width + random(width * 0.5f, width * 1.5f);
+            barrelNumber = random(0, 10); 
+        }
     }
 
     /** Additional helper methods below */
