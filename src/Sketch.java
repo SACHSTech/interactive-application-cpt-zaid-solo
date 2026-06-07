@@ -130,6 +130,7 @@ public class Sketch extends PApplet {
         jumping();
         mainCharacter();
         barrel();
+        checkAllHitboxes();
     }
         
 
@@ -336,6 +337,28 @@ public class Sketch extends PApplet {
             barrelX = width + random(width * 0.5f, width * 1.5f);
             barrelNumber = random(0, 10); 
         }
+    }
+   
+   private boolean hitbox(float rectX, float rectY, float rectW, float rectH) { //takes obstacles traits as parameters and returns true or false for collision
+        float radius = 25; //half characters width, how far circle hitbox is from centre
+        float closestX = constrain(mcX, rectX, rectX + rectW); //finds closest points on rectangle to circle centre, right edge
+        float closestY = constrain(mcY, rectY, rectY + rectH); //bottom edge
+        float distX = mcX - closestX; //distance between centre circle and cloest point on rectangle
+        float distY = mcY - closestY;
+        return (distX * distX + distY * distY) <= (radius * radius); //if diatcne within radius is touching the rectangle return true
+    }
+
+    private void checkAllHitboxes() {
+        // barrel 1
+        if (hitbox(barrelX, height * 0.64f, 20, 40)) gameState = 2; //checks if touching obstacle
+        
+        // barrel 2 (only when double barrel)
+        if (barrelNumber <= 4) {
+            if (hitbox(barrelX + 20, height * 0.64f, 20, 40)) gameState = 2;
+        }
+        
+        // add more lines for future obstacles
+        // if (hitbox(droneX, droneY, dW, dH)) gameState = 2;
     }
 
     /** Additional helper methods below */
