@@ -150,7 +150,7 @@ public class Sketch extends PApplet {
         fill(255, 50, 50);
         textSize(45);
         textAlign(CENTER);
-        text("GAME OVER", 250, 160);
+        text("GAME OVER", 250, 100);
         fill(200);
         textSize(24);
         text("Press SPACE to restart", 250, 160);
@@ -288,6 +288,7 @@ public class Sketch extends PApplet {
             if (gameState == 0) {
                 gameState = 1;
             } else if (gameState == 2 && key == ' ') {
+                resetGame();
                 gameState = 1;
             }
             
@@ -340,7 +341,7 @@ public class Sketch extends PApplet {
     }
    
    private boolean hitbox(float rectX, float rectY, float rectW, float rectH) { //takes obstacles traits as parameters and returns true or false for collision
-        float radius = 25; //half characters width, how far circle hitbox is from centre
+        float radius = 5; //half characters width, how far circle hitbox is from centre
         float closestX = constrain(mcX, rectX, rectX + rectW); //finds closest points on rectangle to circle centre, right edge
         float closestY = constrain(mcY, rectY, rectY + rectH); //bottom edge
         float distX = mcX - closestX; //distance between centre circle and cloest point on rectangle
@@ -350,15 +351,42 @@ public class Sketch extends PApplet {
 
     private void checkAllHitboxes() {
         // barrel 1
-        if (hitbox(barrelX, height * 0.64f, 20, 40)) gameState = 2; //checks if touching obstacle
-        
+        if (hitbox(barrelX + 5, height * 0.64f, 20, height * 0.35f)) {
+            gameState = 2; //checks if touching obstacle
+        }
         // barrel 2 (only when double barrel)
         if (barrelNumber <= 4) {
-            if (hitbox(barrelX + 20, height * 0.64f, 20, 40)) gameState = 2;
+            if (hitbox(barrelX + 25, height * 0.64f, 20, height * 0.35f)) {
+                gameState = 2;
+            }
         }
         
         // add more lines for future obstacles
         // if (hitbox(droneX, droneY, dW, dH)) gameState = 2;
+    }
+
+    private void resetGame() {
+        mcX = width * 0.1f;
+        mcY = height * 0.8f;
+        velocity = 0;
+        gravityFlipped = false;
+        onGround = false;
+        jumpState = false;
+        currentFrame = 0;
+        frameTimer = 0;
+        scrollSpeed = 2;
+
+        barrelX = width + random(width * 0.5f, width);
+        barrelNumber = random(0, 10);
+
+        bg1X = 0;
+        bg2X = 800;
+        bg3X = 300;
+
+        rectStart = 0;
+        rectEnd = width;
+
+        //add more varibles for future objects too
     }
 
     /** Additional helper methods below */
