@@ -19,7 +19,7 @@ public class Sketch extends PApplet {
 
     float rectStart;
     float rectEnd = width;
-    float scrollSpeed = 2;
+    float scrollSpeed = 2.5f;
     float speedIncrease = 0.001f;
 
     float velocity = 0;
@@ -113,8 +113,8 @@ public class Sketch extends PApplet {
         barrel = loadImage("data/Barrel1.png");
 
         barrelX = width * 0.6f;
-        barrelNumber = random(0, 10);
-        barrelFlipped = random(1) > 0.3f;
+        barrelNumber = random(0, 6);
+        barrelFlipped = random(1) > 0.1f;
         barrelY = height * 0.64f;
     }
 
@@ -130,6 +130,7 @@ public class Sketch extends PApplet {
     }
 
     private void methodDecomp() {
+        scrollSpeed += speedIncrease;
         bg();
         ground();
         jumping();
@@ -167,14 +168,14 @@ public class Sketch extends PApplet {
         }
         image(building1, bg1X, 0, width, height);
         image(building1, bg1X + width, 0, width, height);  // always draw second copy behind
-        bg1X -= 1;
+        bg1X -= 0.5f;
 
         if (bg2X + width < 0) {
             bg2X = 0;
         }
         image(building2, bg2X, 0, width, height);
         image(building2, bg2X + width, 0, width, height);
-        bg2X -= 2;
+        bg2X -= 1;
 
     
         if (bg3X + width < 0) {
@@ -182,7 +183,7 @@ public class Sketch extends PApplet {
         }
         image(building3, bg3X, 0, width, height);
         image(building3, bg3X + width, 0, width, height);
-        bg3X -= 3;
+        bg3X -= 2.2f;
         }
 
     private void ground() {
@@ -191,7 +192,6 @@ public class Sketch extends PApplet {
         stroke(0);
         fill(179, 236, 255);
 
-        scrollSpeed += speedIncrease;
 
         rectStart -= scrollSpeed;
         rectEnd -= scrollSpeed;
@@ -199,9 +199,8 @@ public class Sketch extends PApplet {
         float tileW = width * 0.15f;
         float tileH = height * 0.2f;
 
-       rectStart -= scrollSpeed;
         if (rectStart <= -tileW) {
-            rectStart = 0;  // reset every time one tile width has passed
+            rectStart += tileW;  // reset every time one tile width has passed
         }
 
         for (float x = rectStart; x < width; x += tileW) {
@@ -231,7 +230,6 @@ public class Sketch extends PApplet {
             frameTimer = 0;
         }
 
-
         frameTimer++;
 
         if (!jumpState) {
@@ -240,11 +238,7 @@ public class Sketch extends PApplet {
                 frameTimer = 0;
             }
             if (gravityFlipped) {
-                pushMatrix();
-                translate(mcX - 25, mcY - 62 + 75);  
-                scale(1, -1);
-                image(runFrames[currentFrame],0, 0 - 50, 50, 75);
-                popMatrix();
+                drawFlipped(runFrames[currentFrame], mcX - 25, mcY - 62);
             } else {
                 image(runFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
             }
@@ -254,15 +248,19 @@ public class Sketch extends PApplet {
                 frameTimer = 0;
             }
             if(gravityFlipped) {
-                pushMatrix();
-                translate(mcX - 25, mcY - 62 + 75);
-                scale(1, -1);
-                image(jumpFrames[currentFrame], 0, 0 - 50, 50, 75);
-                popMatrix();
+                drawFlipped(jumpFrames[currentFrame], mcX - 25, mcY - 62);
             } else {
                 image(jumpFrames[currentFrame], mcX - 25, mcY - 62, 50, 75);
             }
         }
+    }
+
+    private void drawFlipped(PImage frame, float x, float y) {
+        pushMatrix();
+        translate(x, y + 75);
+        scale(1, -1);            
+        image(frame, 0, 0 - 50, 50, 75);
+        popMatrix();
     }
 
     private void jumping() {
@@ -303,7 +301,7 @@ public class Sketch extends PApplet {
                 velocity = -jump;
             } else {
                 velocity = jump;
-                jumpState = true;
+                
                 currentFrame = 0;  
             }
             onGround = false;
@@ -366,9 +364,9 @@ public class Sketch extends PApplet {
         barrelX -= scrollSpeed;
 
         if (barrelX < -40) {
-            barrelX = width + random(width * 0.5f, width * 1.5f);
-            barrelNumber = random(0, 10);
-            barrelFlipped = random(1) > 0.5f;
+            barrelX = width + random(width * 0.1f, width * 0.4f);
+            barrelNumber = random(0, 4);
+            barrelFlipped = random(1) > 0.3f;
         }
     }
    
