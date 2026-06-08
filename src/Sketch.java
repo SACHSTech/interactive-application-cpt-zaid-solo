@@ -3,8 +3,9 @@ import processing.core.PImage;
 
 
 /**
- * Template for programs with Processing graphics output.
- * @author Your Name
+ * 16-Bit, 2D platformer game titled "Gravity Rush"
+ * Goal: Avoid obstacles for as long as possible while being able to manipulate gravity
+ * @author Zaid El-Batnigi
  */
 public class Sketch extends PApplet {
     public static void main(String[] args) {
@@ -145,7 +146,7 @@ public class Sketch extends PApplet {
         fill(0, 200, 255);
         textSize(45);
         textAlign(CENTER);
-        text("MOMENTUM RUSH", 250, 100);
+        text("GRAVITY RUSH", 250, 100);
         fill(200);
         textSize(24);
         text("Press SPACE to start", 250, 160);
